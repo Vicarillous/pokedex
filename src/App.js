@@ -1,24 +1,41 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import pokeball from './assets/poke_ball_icon.png';
+import PokedexApi from './api/PokedexApi';
+import Pokedex from './components/Pokedex/Pokedex';
+import Header from './components/Header';
 
 function App() {
+  const [pokemons, setPokemons] = useState([]);
+
+  const fetchPokemons = () => {
+    PokedexApi.getPokemons().then((res) => {
+      setPokemons(res.data);
+    })
+  }
+
+  const changePage = (event, page) => {
+    PokedexApi.get(page).then((res) => {
+      setPokemons(res.data);
+    }
+    )
+  }
+
+  useEffect(() => {
+    fetchPokemons();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+		<>
+			<img
+				className="absolute opacity-20 rotate-45 -translate-x-20 -translate-y-20 -z-10"
+				src={pokeball}
+			/>
+			<div className="container p-8 mx-auto">
+				<Header />
+			  <Pokedex pokemons={pokemons} changePage={changePage} />
+			</div>
+		</>
   );
 }
 
