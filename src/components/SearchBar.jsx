@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import pokeball from "../assets/poke_ball_icon.png";
 
 
-const SearchBar = ({fetchPokemon}) => {
+const SearchBar = ({searchPokemon}) => {
     const [search, setSearch] = useState("");
 
     const handleChange = (event) => {
@@ -19,7 +19,7 @@ const SearchBar = ({fetchPokemon}) => {
 			/>
 			<button
 				className="bg-red-400 rounded-xl w-14 h-14 p-2 shadow-lg shadow-red-400/50 mx-3 shrink-0"
-				onClick={event => fetchPokemon(event, search)}
+				onClick={() => searchPokemon(search)}
 			>
 				<img className="brightness-0 invert" src={pokeball} />
 			</button>

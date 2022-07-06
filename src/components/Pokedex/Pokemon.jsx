@@ -1,22 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Pokemon.style.scss";
 import pokeball from "../../assets/poke_ball_icon.png";
-import PokedexApi from "../../api/PokedexApi";
 
 const Pokemon = (props) => {
-	const { pokemon } = props;
-
-	const [pokemonData, setPokemonData] = useState();
-
-	const fetchPokemon = () => {
-		PokedexApi.getPokemon(pokemon).then((res) => {
-			setPokemonData(res.data);
-		});
-	};
-
-	useEffect(() => {
-		fetchPokemon();
-	}, []);
+	const pokemonData = props.pokemon;
 
 	return (
 		<>
