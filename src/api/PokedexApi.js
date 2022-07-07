@@ -5,8 +5,8 @@ const pokedex = axios.create({
 });
 
 const PokedexApi = {
-	getPokemons() {
-		return pokedex.get("pokemon?limit=40&offset=0");
+	getPokemons(limit, offset) {
+		return pokedex.get(`pokemon?limit=${limit}&offset=${offset}`);
 	},
 
 	searchPokemon(name) {

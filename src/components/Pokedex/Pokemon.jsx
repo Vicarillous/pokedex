@@ -8,13 +8,12 @@ const Pokemon = (props) => {
 	return (
 		<>
 			{pokemonData && (
-				
 				<div
 					className={`bg-${pokemonData.types[0].type.name} px-3 py-3 bg-white rounded-xl shadow-lg shadow-slate-400/50 flex relative overflow-hidden`}
 				>
 					<div className="relative">
 						<div className="w-auto h-40 flex-none flex mt-3">
-							<div className="w-48">
+							<div className="w-40">
 								<p className="text-3xl font-semibold text-white capitalize mb-3">
 									{pokemonData.name}
 								</p>
@@ -48,6 +47,7 @@ const Pokemon = (props) => {
 					<img
 						className="opacity-20 absolute right-0 bottom-0 w-52 -rotate-45 translate-x-10 translate-y-10 z-0"
 						src={pokeball}
+						alt=""
 					/>
 				</div>
 			)}
