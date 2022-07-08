@@ -9,11 +9,16 @@ import SearchBar from "./components/SearchBar";
 function App() {
 	const [pokemons, setPokemons] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
 	const itensPerPage = 40;
 
 	const fetchPokemons = async () => {
+		if (isSearch) {
+			return null
+		}
+
 		setLoading(true);
 		const data = await PokedexApi.getPokemons(
 			itensPerPage,
@@ -30,21 +35,27 @@ function App() {
 	};
 
 	const searchPokemon = async (search) => {
+		setIsSearch(true);
 		if (!search) {
+			setIsSearch(false);
 			return fetchPokemons();
 		}
+		setLoading(true);
 
 		const result = await PokedexApi.searchPokemon(search).then((res) => {
 			return res.data;
 		});
 		setPokemons([result]);
-		setTotalPages(1);
 		setCurrentPage(0);
+		setTotalPages(1);
+		
+		setLoading(false);
 	};
 
 	useEffect(() => {
 		fetchPokemons();
-	}, [currentPage]);
+		console.log("useEffect");
+	}, [currentPage, isSearch]);
 
 	return (
 		<>
