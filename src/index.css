@@ -7,6 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+svg {
+  display: inline-block !important;
+  }
+
 hr {
   border: 0;
 }

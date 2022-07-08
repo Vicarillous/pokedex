@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Navigation from "../navigation/Navigation";
 import Pokemon from "./Pokemon";
 
 const Pokedex = (props) => {
-	const { pokemons, loading, currentPage, totalPages, setCurrentPage } = props;
+	const { pokemons, loading, currentPage, totalPages, itemsPerPage, totalCount, setCurrentPage } = props;
+	const pokemonCount = useRef(0);
 
 	const changePage = (page) => {
-		console.log(page);
+		//console.log(page);
 		if (page >= 0 && page < totalPages) {
 			setCurrentPage(page);
 		}		
@@ -14,11 +15,13 @@ const Pokedex = (props) => {
 
 	return (
 		<div>
-			<hr className="m-3" />
 			<Navigation
 				currentPage={currentPage}
 				changePage={changePage}
 				totalPages={totalPages}
+				itemsPerPage={itemsPerPage}
+				pokemonCount={pokemonCount.current}
+				totalCount={totalCount}
 			/>
 			<hr className="m-3" />
 			<section className={"flex justify-center flex-wrap gap-3"}>
@@ -27,10 +30,24 @@ const Pokedex = (props) => {
 				) : (
 					pokemons &&
 					pokemons.map((pokemon, index) => {
+						if (index === 0) {
+							pokemonCount.current = 0;
+						}
+
+						pokemonCount.current++;
 						return <Pokemon key={index} pokemon={pokemon} />;
 					})
 				)}
 			</section>
+			<hr className="m-3" />
+			<Navigation
+				currentPage={currentPage}
+				changePage={changePage}
+				totalPages={totalPages}
+				itemsPerPage={itemsPerPage}
+				pokemonCount={pokemonCount.current}
+				totalCount={totalCount}
+			/>
 		</div>
 	);
 };

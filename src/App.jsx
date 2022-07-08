@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.css";
 import pokeball from "./assets/poke_ball_icon.png";
 import PokedexApi from "./api/PokedexApi";
@@ -12,7 +12,9 @@ function App() {
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
-	const itensPerPage = 40;
+	const itemsPerPage = 40;
+
+	const totalCount = useRef(0);
 
 	const fetchPokemons = async () => {
 		if (isSearch) {
@@ -21,9 +23,10 @@ function App() {
 
 		setLoading(true);
 		const data = await PokedexApi.getPokemons(
-			itensPerPage,
-			itensPerPage * currentPage
+			itemsPerPage,
+			itemsPerPage * currentPage
 		).then((res) => res.data);
+		totalCount.current = data.count;
 		const promises = data.results.map(async (pokemon) => {
 			return await PokedexApi.get(pokemon.url).then((res) => res.data);
 		});
@@ -31,7 +34,7 @@ function App() {
 		const results = await Promise.all(promises);
 		setPokemons(results);
 		setLoading(false);
-		setTotalPages(Math.ceil(data.count / itensPerPage));
+		setTotalPages(Math.ceil(data.count / itemsPerPage));
 	};
 
 	const searchPokemon = async (search) => {
@@ -54,7 +57,6 @@ function App() {
 
 	useEffect(() => {
 		fetchPokemons();
-		console.log("useEffect");
 	}, [currentPage, isSearch]);
 
 	return (
@@ -66,7 +68,7 @@ function App() {
 			<div className="container p-8 mx-auto">
 				<Header />
 				<SearchBar searchPokemon={searchPokemon} />
-				<Pokedex pokemons={pokemons} loading={loading} currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+				<Pokedex pokemons={pokemons} loading={loading} currentPage={currentPage} totalPages={totalPages} itemsPerPage={itemsPerPage} totalCount={totalCount.current} setCurrentPage={setCurrentPage} />
 			</div>
 		</>
 	);

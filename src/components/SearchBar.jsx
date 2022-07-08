@@ -10,7 +10,7 @@ const SearchBar = ({searchPokemon}) => {
 	};
 
 	return (
-		<div className="w-96 md:w-1/2 mx-auto bg-white p-4 rounded-2xl shadow-lg flex">
+		<div className="w-96 md:w-7/12 mx-auto bg-white p-4 rounded-2xl shadow-lg flex">
 			<input
 				className="grow w-full text-xl mx-3"
 				placeholder="Ditto"
