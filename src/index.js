@@ -1,20 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Pokemon from "./routes/pokemon";
 
+const pokedexGraphQL = new ApolloClient({
+	uri: "https://beta.pokeapi.co/graphql/v1beta",
+	cache: new InMemoryCache(),
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<App />} />
-				<Route path="/pokemon/:name" element={<Pokemon />} />
-			</Routes>
-		</BrowserRouter>
+		<ApolloProvider client={pokedexGraphQL}>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/:page" element={<App />} />
+					<Route path="/pokemon/:name" element={<Pokemon />} />
+				</Routes>
+			</BrowserRouter>
+		</ApolloProvider>
 	</React.StrictMode>
 );
 

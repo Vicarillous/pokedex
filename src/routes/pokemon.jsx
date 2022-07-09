@@ -38,6 +38,7 @@ const Pokemon = () => {
 										"official-artwork"
 									].front_default
 								}
+								alt={pokemon.name}
 							/>
 							Top
 						</section>

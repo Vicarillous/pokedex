@@ -1,18 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 import "./App.css";
 import pokeball from "./assets/poke_ball_icon.png";
-import PokedexApi from "./api/PokedexApi";
+import PokedexApi, {GET_POKEMONS_BY_NAME, GET_POKEMONS_BY_ID} from "./api/PokedexApi";
 import Pokedex from "./components/pokedex/Pokedex";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 
 function App() {
+	let params = useParams();
+
 	const [pokemons, setPokemons] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
-	const [currentPage, setCurrentPage] = useState(0);
+	const [currentPage, setCurrentPage] = useState(Number(params.page) - 1 <= 0 ? 0 : Number(params.page) - 1);
 	const itemsPerPage = 40;
+
+	const [getPokemonsByName] = useLazyQuery(GET_POKEMONS_BY_NAME);
+	const [getPokemonsById] = useLazyQuery(GET_POKEMONS_BY_ID);
 
 	const totalCount = useRef(0);
 
@@ -45,13 +52,27 @@ function App() {
 		}
 		setIsLoading(true);
 
-		const result = await PokedexApi.searchPokemon(search).then((res) => {
-			return res.data;
-		});
-		setPokemons([result]);
-		setCurrentPage(0);
-		setTotalPages(1);
+		let searchData;
 
+		if (isNaN(search)) {
+			searchData = await getPokemonsByName({
+				variables: { name: search },
+			}).then((res) => res.data.pokemon_v2_pokemon);
+		} else {
+			searchData = await getPokemonsById({
+				variables: { id: search },
+			}).then((res) => res.data.pokemon_v2_pokemon);
+		}
+
+		console.log(searchData);
+
+		const promises = searchData.map(async (pokemon) => {
+			return await PokedexApi.searchPokemon(pokemon.id).then((res) => res.data);
+		})
+
+		const results = await Promise.all(promises);
+
+		setPokemons(results);
 		setIsLoading(false);
 	};
 
