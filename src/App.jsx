@@ -8,7 +8,7 @@ import SearchBar from "./components/SearchBar";
 
 function App() {
 	const [pokemons, setPokemons] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
@@ -21,7 +21,7 @@ function App() {
 			return null;
 		}
 
-		setLoading(true);
+		setIsLoading(true);
 		const data = await PokedexApi.getPokemons(
 			itemsPerPage,
 			itemsPerPage * currentPage
@@ -33,7 +33,7 @@ function App() {
 
 		const results = await Promise.all(promises);
 		setPokemons(results);
-		setLoading(false);
+		setIsLoading(false);
 		setTotalPages(Math.ceil(data.count / itemsPerPage));
 	};
 
@@ -43,7 +43,7 @@ function App() {
 			setIsSearch(false);
 			return fetchPokemons();
 		}
-		setLoading(true);
+		setIsLoading(true);
 
 		const result = await PokedexApi.searchPokemon(search).then((res) => {
 			return res.data;
@@ -52,7 +52,7 @@ function App() {
 		setCurrentPage(0);
 		setTotalPages(1);
 
-		setLoading(false);
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -70,7 +70,7 @@ function App() {
 				<SearchBar searchPokemon={searchPokemon} />
 				<Pokedex
 					pokemons={pokemons}
-					loading={loading}
+					isLoading={isLoading}
 					currentPage={currentPage}
 					totalPages={totalPages}
 					itemsPerPage={itemsPerPage}

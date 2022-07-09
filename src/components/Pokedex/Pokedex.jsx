@@ -3,7 +3,7 @@ import Navigation from "../navigation/Navigation";
 import Pokemon from "./Pokemon";
 
 const Pokedex = (props) => {
-	const { pokemons, loading, currentPage, totalPages, itemsPerPage, totalCount, setCurrentPage } = props;
+	const { pokemons, isLoading, currentPage, totalPages, itemsPerPage, totalCount, setCurrentPage } = props;
 	const pokemonCount = useRef(0);
 
 	const changePage = (page) => {
@@ -25,7 +25,7 @@ const Pokedex = (props) => {
 			/>
 			<hr className="m-3" />
 			<section className={"flex justify-center flex-wrap gap-4"}>
-				{loading ? (
+				{isLoading ? (
 					<div>eae</div>
 				) : (
 					pokemons &&
