@@ -24,7 +24,7 @@ const Pokedex = (props) => {
 				totalCount={totalCount}
 			/>
 			<hr className="m-3" />
-			<section className={"flex justify-center flex-wrap gap-3"}>
+			<section className={"flex justify-center flex-wrap gap-4"}>
 				{loading ? (
 					<div>eae</div>
 				) : (

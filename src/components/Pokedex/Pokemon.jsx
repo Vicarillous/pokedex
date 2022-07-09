@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./Pokemon.style.scss";
+import "../../styles/pokemons.scss";
 import pokeball from "../../assets/poke_ball_icon.png";
 import PokedexApi from "../../api/PokedexApi";
+import { Link } from "react-router-dom";
 
 const Pokemon = (props) => {
 	const pokemonData = props.pokemon;
@@ -36,8 +37,9 @@ const Pokemon = (props) => {
 	return (
 		<>
 			{pokemonData && (
-				<div
-					className={`bg-${pokemonData.types[0].type.name} px-3 py-3 bg-white rounded-xl shadow-lg shadow-slate-400/50 flex relative overflow-hidden`}
+				<Link
+					className={`bg-${pokemonData.types[0].type.name} px-3 py-3 bg-white rounded-xl shadow-lg shadow-slate-400/50 flex relative overflow-hidden cursor-pointer hover:scale-105 transition-transform`}
+					to={`/pokemon/${pokemonData.name}`}
 				>
 					<div className="relative">
 						<div className="w-auto h-40 flex-none flex mt-3">
@@ -87,7 +89,7 @@ const Pokemon = (props) => {
 						src={pokeball}
 						alt=""
 					/>
-				</div>
+				</Link>
 			)}
 		</>
 	);

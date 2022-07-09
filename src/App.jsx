@@ -18,7 +18,7 @@ function App() {
 
 	const fetchPokemons = async () => {
 		if (isSearch) {
-			return null
+			return null;
 		}
 
 		setLoading(true);
@@ -51,7 +51,7 @@ function App() {
 		setPokemons([result]);
 		setCurrentPage(0);
 		setTotalPages(1);
-		
+
 		setLoading(false);
 	};
 
@@ -68,7 +68,15 @@ function App() {
 			<div className="container p-8 mx-auto">
 				<Header />
 				<SearchBar searchPokemon={searchPokemon} />
-				<Pokedex pokemons={pokemons} loading={loading} currentPage={currentPage} totalPages={totalPages} itemsPerPage={itemsPerPage} totalCount={totalCount.current} setCurrentPage={setCurrentPage} />
+				<Pokedex
+					pokemons={pokemons}
+					loading={loading}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					itemsPerPage={itemsPerPage}
+					totalCount={totalCount.current}
+					setCurrentPage={setCurrentPage}
+				/>
 			</div>
 		</>
 	);
