@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import Navigation from "../navigation/Navigation";
-import Pokemon from "./Pokemon";
+import React, { useRef } from "react";
+import Navigation from "components/navigation/Navigation";
+import Pokemon from "components/pokedex/Pokemon";
 
 const Pokedex = (props) => {
 	const { pokemons, isLoading, currentPage, totalPages, itemsPerPage, totalCount, setCurrentPage } = props;

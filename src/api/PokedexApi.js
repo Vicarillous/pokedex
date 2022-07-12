@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useLazyQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const GET_POKEMONS_BY_NAME = gql`
 	query Pokemons($name: String!) {

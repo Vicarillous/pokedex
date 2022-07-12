@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import Pokemon from "./routes/pokemon";
+import "index.css";
+import App from "App";
+import reportWebVitals from "reportWebVitals";
+import Pokemon from "routes/pokemon";
 
 const pokedexGraphQL = new ApolloClient({
 	uri: "https://beta.pokeapi.co/graphql/v1beta",
@@ -18,7 +18,7 @@ root.render(
 		<ApolloProvider client={pokedexGraphQL}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/:page" element={<App />} />
+					<Route path="/" element={<App />} />
 					<Route path="/pokemon/:name" element={<Pokemon />} />
 				</Routes>
 			</BrowserRouter>

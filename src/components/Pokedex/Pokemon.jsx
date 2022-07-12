@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/pokemons.scss";
-import pokeball from "../../assets/poke_ball_icon.png";
-import PokedexApi from "../../api/PokedexApi";
+import "styles/pokemons.scss";
+import pokeball from "assets/poke_ball_icon.png";
+import PokedexApi from "api/PokedexApi";
 import { Link } from "react-router-dom";
 
 const Pokemon = (props) => {

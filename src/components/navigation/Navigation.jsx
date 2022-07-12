@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Button from "./Button";
+import Button from "components/navigation/Button";
 
 const Navigation = (props) => {
 	const { currentPage, totalPages, itemsPerPage, pokemonCount, totalCount, changePage } = props;
@@ -47,8 +47,12 @@ const Navigation = (props) => {
 						return (
 							<li key={page}>
 								<Button
-									className={`font-semibold text-slate-700
-										${page === currentPage ? "bg-red-400 shadow-lg shadow-red-400/50 text-white" : ""}`}
+									className={`font-semibold 
+										${
+											page === currentPage
+												? "bg-red-400 shadow-lg shadow-red-400/50 text-white"
+												: "text-slate-700"
+										}`}
 									onClick={() => changePage(page)}
 								>
 									{page + 1}

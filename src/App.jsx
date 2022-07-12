@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import "./App.css";
-import pokeball from "./assets/poke_ball_icon.png";
-import PokedexApi, {GET_POKEMONS_BY_NAME, GET_POKEMONS_BY_ID} from "./api/PokedexApi";
-import Pokedex from "./components/pokedex/Pokedex";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
+import "App.css";
+import pokeball from "assets/poke_ball_icon.png";
+import PokedexApi, {
+	GET_POKEMONS_BY_NAME,
+	GET_POKEMONS_BY_ID,
+} from "api/PokedexApi";
+import Pokedex from "components/pokedex/Pokedex";
+import Header from "components/Header";
+import SearchBar from 'components/SearchBar';
 
 function App() {
-	let params = useParams();
-
 	const [pokemons, setPokemons] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
-	const [currentPage, setCurrentPage] = useState(Number(params.page) - 1 <= 0 ? 0 : Number(params.page) - 1);
+	const [currentPage, setCurrentPage] = useState(0);
 	const itemsPerPage = 40;
 
 	const [getPokemonsByName] = useLazyQuery(GET_POKEMONS_BY_NAME);
@@ -28,20 +28,26 @@ function App() {
 			return null;
 		}
 
-		setIsLoading(true);
-		const data = await PokedexApi.getPokemons(
-			itemsPerPage,
-			itemsPerPage * currentPage
-		).then((res) => res.data);
-		totalCount.current = data.count;
-		const promises = data.results.map(async (pokemon) => {
-			return await PokedexApi.get(pokemon.url).then((res) => res.data);
-		});
+		try {
+			setIsLoading(true);
+			const data = await PokedexApi.getPokemons(
+				itemsPerPage,
+				itemsPerPage * currentPage
+			).then((res) => res.data);
+			totalCount.current = data.count;
+			const promises = data.results.map(async (pokemon) => {
+				return await PokedexApi.get(pokemon.url).then(
+					(res) => res.data
+				);
+			});
 
-		const results = await Promise.all(promises);
-		setPokemons(results);
-		setIsLoading(false);
-		setTotalPages(Math.ceil(data.count / itemsPerPage));
+			const results = await Promise.all(promises);
+			setPokemons(results);
+			setIsLoading(false);
+			setTotalPages(Math.ceil(data.count / itemsPerPage));
+		} catch (e) {
+			console.log(e)
+		}
 	};
 
 	const searchPokemon = async (search) => {
@@ -66,9 +72,13 @@ function App() {
 
 		console.log(searchData);
 
+		totalCount.current = searchData.length;
+
 		const promises = searchData.map(async (pokemon) => {
-			return await PokedexApi.searchPokemon(pokemon.id).then((res) => res.data);
-		})
+			return await PokedexApi.searchPokemon(pokemon.id).then(
+				(res) => res.data
+			);
+		});
 
 		const results = await Promise.all(promises);
 
