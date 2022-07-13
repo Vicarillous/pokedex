@@ -1,38 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "styles/pokemons.scss";
 import pokeball from "assets/poke_ball_icon.png";
-import PokedexApi from "api/PokedexApi";
 import { Link } from "react-router-dom";
+import { PokemonSprite } from "components/PokemonSprite";
 
 const Pokemon = (props) => {
 	const pokemonData = props.pokemon;
-
-	const [defaultImage, setDefaultImage] = useState(null);
-
-	const getDefaultImage = async () => {
-		const pokemonUrl = pokemonData.species.url;
-		const specieData = await PokedexApi.get(pokemonUrl).then(
-			(res) => res.data
-		);
-		setDefaultImage(
-			`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${specieData.id
-				.toString()
-				.padStart(3, "0")}.png`
-		);
-		/*const data = await PokedexApi.searchPokemon(specieData.id).then((res) => res.data);
-
-		console.log(data);
-
-		setDefaultImage(data.sprites.other["official-artwork"].front_default);*/
-	};
-
-	useEffect(() => {
-		if (
-			pokemonData.sprites.other["official-artwork"].front_default === null
-		) {
-			getDefaultImage();
-		}
-	}, [pokemonData]);
 
 	return (
 		<>
@@ -60,24 +33,9 @@ const Pokemon = (props) => {
 									})}
 								</ul>
 							</div>
-							<img
-								className={`z-20 w-40 h-40 ${
-									pokemonData.sprites.other[
-										"official-artwork"
-									].front_default !== null
-										? ""
-										: "brightness-0"
-								}`}
-								src={
-									pokemonData.sprites.other[
-										"official-artwork"
-									].front_default !== null
-										? pokemonData.sprites.other[
-												"official-artwork"
-										  ].front_default
-										: defaultImage
-								}
-								alt={pokemonData.name}
+							<PokemonSprite
+								className="z-20 w-40 h-40"
+								pokemonData={pokemonData}
 							/>
 						</div>
 						<p className="absolute right-0 top-0 text-white font-semibold opacity-50 text-3xl z-10">

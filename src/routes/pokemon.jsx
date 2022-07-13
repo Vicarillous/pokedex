@@ -6,6 +6,7 @@ import "styles/pokemons.scss";
 import { ProgressBar } from "components/ProgressBar";
 
 import { gradients } from "styles/types-gradients";
+import { PokemonSprite } from "components/PokemonSprite";
 
 //https://www.thegamer.com/best-pokemon-of-each-stat-ranked/
 const MAX_STATS = {
@@ -37,7 +38,7 @@ const Pokemon = () => {
 
 	useEffect(() => {
 		fetchPokemon();
-	}, []);
+	}, [params]);
 
 	if (!pokemon) {
 		return <div>Loading...</div>;
@@ -90,14 +91,7 @@ const Pokemon = () => {
 								</Info>
 							</div>
 						</div>
-						<img
-							className="z-10"
-							src={
-								pokemon.sprites.other["official-artwork"]
-									.front_default
-							}
-							alt={pokemon.name}
-						/>
+						<PokemonSprite className="z-10" pokemonData={pokemon} />
 					</section>
 					<section className="flex items-center flex-col justify-center md:flex-row gap-10 mx-16 lg:mx-6 xl:mx-0">
 						<h2 className="text-white text-6xl font-bold h-fit">
