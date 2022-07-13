@@ -6,7 +6,7 @@ export const ProgressBar = ({ value, max }) => {
 	};
 
 	return (
-		<div className="grow relative">
+		<div className="grow relative h-7 w-60 flex-shrink-0">
 			<span
 				className="bg-white h-full inline-block absolute rounded-lg"
 				style={{ width: toPercentage(value, max) }}
