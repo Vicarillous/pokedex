@@ -21,7 +21,12 @@ const SearchBar = ({searchPokemon}) => {
 				className="bg-red-400 rounded-xl w-14 h-14 p-2 shadow-lg shadow-red-400/50 mx-3 shrink-0"
 				onClick={() => searchPokemon(search)}
 			>
-				<img className="brightness-0 invert" src={pokeball} />
+				<img
+					className="brightness-0 invert"
+					src={pokeball}
+					alt=""
+					draggable="false"
+				/>
 			</button>
 		</div>
 	);
