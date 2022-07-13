@@ -13,7 +13,7 @@ function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
-	const [currentPage, setCurrentPage] = useState(0);
+	const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem("currentPage")) || 0);
 	const itemsPerPage = 40;
 
 	const [getPokemonsByName] = useLazyQuery(GET_POKEMONS_BY_NAME);
@@ -68,10 +68,6 @@ function App() {
 			}).then((res) => res.data.pokemon_v2_pokemon);
 		}
 
-		console.log(searchData);
-
-		totalCount.current = searchData.length;
-
 		const promises = searchData.map(async (pokemon) => {
 			return await PokedexApi.searchPokemon(pokemon.id).then(
 				(res) => res.data
@@ -80,12 +76,18 @@ function App() {
 
 		const results = await Promise.all(promises);
 
+		totalCount.current = searchData.length;
+		setTotalPages(Math.ceil(totalCount.current / itemsPerPage));
+		setCurrentPage(0);
+		sessionStorage.setItem("currentPage", currentPage);
+		
 		setPokemons(results);
 		setIsLoading(false);
 	};
 
 	useEffect(() => {
 		fetchPokemons();
+		sessionStorage.setItem("currentPage", currentPage);
 	}, [currentPage, isSearch]);
 
 	return (
@@ -93,6 +95,7 @@ function App() {
 			<img
 				className="absolute opacity-20 rotate-45 -translate-x-20 -translate-y-20 -z-10"
 				src={pokeball}
+				alt=""
 			/>
 			<div className="container p-8 mx-auto">
 				<Header />
