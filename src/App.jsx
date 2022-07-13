@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLazyQuery } from "@apollo/client";
 import "App.css";
 import pokeball from "assets/poke_ball_icon.png";
-import PokedexApi, {
-	GET_POKEMONS_BY_NAME,
-	GET_POKEMONS_BY_ID,
-} from "api/PokedexApi";
+import { GET_POKEMONS_BY_NAME, GET_POKEMONS_BY_ID } from "api/PokedexQueries";
+import PokedexApi from "api/PokedexApi";
 import Pokedex from "components/pokedex/Pokedex";
 import Header from "components/Header";
 import SearchBar from 'components/SearchBar';
