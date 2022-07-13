@@ -61,7 +61,7 @@ const Pokemon = (props) => {
 								</ul>
 							</div>
 							<img
-								className={`z-20 ${
+								className={`z-20 w-40 h-40 ${
 									pokemonData.sprites.other[
 										"official-artwork"
 									].front_default !== null
