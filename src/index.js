@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "index.css";
 import App from "App";
 import reportWebVitals from "reportWebVitals";
-import Pokemon from "routes/pokemon";
+import PokemonDetails from "routes/PokemonDetails";
 
 const pokedexGraphQL = new ApolloClient({
 	uri: "https://beta.pokeapi.co/graphql/v1beta",
@@ -19,7 +19,7 @@ root.render(
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<App />} />
-					<Route path="/pokemon/:name" element={<Pokemon />} />
+					<Route path="/pokemon/:name" element={<PokemonDetails />} />
 				</Routes>
 			</BrowserRouter>
 		</ApolloProvider>
