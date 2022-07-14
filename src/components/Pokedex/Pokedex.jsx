@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Navigation from "components/navigation/Navigation";
 import Pokemon from "components/pokedex/Pokemon";
+import { Spinner } from "components/Spinner";
 
 const Pokedex = (props) => {
 	const { pokemons, isLoading, currentPage, totalPages, itemsPerPage, totalCount, setCurrentPage } = props;
@@ -15,18 +16,12 @@ const Pokedex = (props) => {
 
 	return (
 		<div>
-			<Navigation
-				currentPage={currentPage}
-				changePage={changePage}
-				totalPages={totalPages}
-				itemsPerPage={itemsPerPage}
-				pokemonCount={pokemonCount.current}
-				totalCount={totalCount}
-			/>
-			<hr className="m-3" />
+			<hr className="m-6" />
 			<section className={"flex justify-center flex-wrap gap-4"}>
-				{isLoading ? (
-					<div>eae</div>
+				{true ? (
+					<Spinner
+						className="w-52 h-52 md:w-72 md:h-72"
+					/>
 				) : (
 					pokemons &&
 					pokemons.map((pokemon, index) => {
