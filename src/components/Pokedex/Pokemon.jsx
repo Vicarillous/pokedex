@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "styles/pokemons.scss";
 import pokeball from "assets/poke_ball_icon.png";
 import { Link } from "react-router-dom";
@@ -38,8 +38,8 @@ const Pokemon = (props) => {
 								pokemonData={pokemonData}
 							/>
 						</div>
-						<p className="absolute right-0 top-0 text-white font-semibold opacity-50 text-3xl z-10">
-							#{pokemonData.id.toString().padStart(3, "0")}
+						<p className="absolute right-0 top-0 text-white font-semibold opacity-50 text-3xl z-10 select-none">
+							{`#${pokemonData.id.toString().padStart(3, "0")}`}
 						</p>
 					</div>
 					<img
