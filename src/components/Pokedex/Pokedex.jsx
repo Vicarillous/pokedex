@@ -18,7 +18,7 @@ const Pokedex = (props) => {
 		<div>
 			<hr className="m-6" />
 			<section className={"flex justify-center flex-wrap gap-4"}>
-				{true ? (
+				{isLoading ? (
 					<Spinner
 						className="w-52 h-52 md:w-72 md:h-72"
 					/>
