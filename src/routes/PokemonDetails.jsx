@@ -9,6 +9,7 @@ import { gradients } from "styles/types-gradients";
 import { PokemonSprite } from "components/PokemonSprite";
 import {SmallHeader} from "components/Header";
 import { Spinner } from "components/Spinner";
+import NotFound from "routes/NotFound";
 
 //https://www.thegamer.com/best-pokemon-of-each-stat-ranked/
 const MAX_STATS = {
@@ -20,10 +21,13 @@ const MAX_STATS = {
 	speed: 200,
 };
 
+const STATUS = ["Hp", "Ataque", "Defesa", "Ataque Especial", "Defesa Especial", "Velocidade"];
+
 const PokemonDetails = () => {
 	let params = useParams();
 
 	const [pokemon, setPokemon] = useState(null);
+	const [notFound, setNotFound] = useState(false);
 
 	const fetchPokemon = async () => {
 		try {
@@ -35,12 +39,17 @@ const PokemonDetails = () => {
 			setPokemon(result);
 		} catch (e) {
 			console.log(e);
+			setNotFound(true);
 		}
 	};
 
 	useEffect(() => {
 		fetchPokemon();
 	}, [params]);
+
+	if (notFound) {
+		return <NotFound />;
+	}
 
 	if (!pokemon) {
 		return (
@@ -87,13 +96,13 @@ const PokemonDetails = () => {
 						</div>
 						<div className="mt-4">
 							<Info value={pokemon.height / 10} sufix="M">
-								Height
+								Altura
 							</Info>
 							<Info value={pokemon.weight / 10} sufix="Kg">
-								Weight
+								Peso
 							</Info>
 							<Info value={pokemon.abilities[0].ability.name}>
-								Abilities
+								Habilidades
 							</Info>
 						</div>
 					</div>
@@ -104,7 +113,7 @@ const PokemonDetails = () => {
 				</section>
 				<section className="flex items-center flex-col justify-center md:flex-row gap-10 mx-16 lg:mx-6 xl:mx-0">
 					<h2 className="text-white text-6xl font-bold h-fit">
-						Stats
+						Status
 					</h2>
 					<ul className="grow">
 						{pokemon.stats.map((stat, index) => {
@@ -114,7 +123,7 @@ const PokemonDetails = () => {
 									className="flex justify-between items-center text-lg text-white gap-3 py-1 first:pt-0 last:pb-0"
 								>
 									<span className="capitalize basis-40">
-										{stat.stat.name}
+										{STATUS[index]}
 									</span>
 									<ProgressBar
 										value={stat.base_stat}
