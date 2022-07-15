@@ -6,6 +6,7 @@ import "index.css";
 import App from "App";
 import reportWebVitals from "reportWebVitals";
 import PokemonDetails from "routes/PokemonDetails";
+import NotFound from "routes/NotFound";
 
 const pokedexGraphQL = new ApolloClient({
 	uri: "https://beta.pokeapi.co/graphql/v1beta",
@@ -20,6 +21,7 @@ root.render(
 				<Routes>
 					<Route path="/" element={<App />} />
 					<Route path="/pokemon/:name" element={<PokemonDetails />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>
 		</ApolloProvider>
