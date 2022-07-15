@@ -1,11 +1,11 @@
-export const LeftArrow = () => {
+export const LeftArrow = ({className}) => {
   return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="16"
 			height="16"
 			fill="currentColor"
-			className="bi bi-chevron-left"
+			className={className}
 			viewBox="0 0 16 16"
 		>
 			<path
@@ -16,14 +16,14 @@ export const LeftArrow = () => {
   );
 }
 
-export const RightArrow = () => {
+export const RightArrow = ({className}) => {
     return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="16"
 			height="16"
 			fill="currentColor"
-			className="bi bi-chevron-right"
+			className={className}
 			viewBox="0 0 16 16"
 		>
 			<path

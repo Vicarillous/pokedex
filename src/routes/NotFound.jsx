@@ -16,7 +16,7 @@ const NotFound = () => {
 			</p>
 			<Link
 				to="/"
-				className="rounded-xl bg-red-400 shadow-lg shadow-red-400/50 text-white text-lg font-normal p-3 px-6 m-6"
+				className="rounded-xl primary-button text-lg font-normal p-3 px-6 m-6"
 			>
 				Voltar para o início
 			</Link>

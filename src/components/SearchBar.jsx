@@ -28,7 +28,7 @@ const SearchBar = ({searchPokemon}) => {
 				ref={searchInput}
 			/>
 			<button
-				className="bg-red-400 rounded-xl w-14 h-14 p-2 shadow-lg shadow-red-400/50 mx-3 shrink-0"
+				className="primary-button rounded-xl w-14 h-14 p-2 shadow-lg mx-3 shrink-0"
 				onClick={() => searchPokemon(search)}
 			>
 				<img

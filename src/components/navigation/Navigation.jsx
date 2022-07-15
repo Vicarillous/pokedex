@@ -11,13 +11,13 @@ const Navigation = (props) => {
 
 	return (
 		<div className="w-3/4 p-4 rounded-2xl flex mx-auto justify-evenly items-center flex-wrap gap-1">
-			<ul className="flex justify-around">
+			<ul className="flex justify-around gap-1">
 				<li>
 					<Button
-						className="font-semibold text-slate-700"
+						className="text-slate-700 hover:border-slate-300 hover:border-2 transition-all"
 						onClick={() => changePage(currentPage - 1)}
 					>
-						<LeftArrow />
+						<LeftArrow className="hover:stroke-current hover:stroke-1" />
 					</Button>
 				</li>
 				{[...Array(maxItems + itemOffset)].map((_, index) => {
@@ -39,8 +39,8 @@ const Navigation = (props) => {
 									className={`font-semibold 
 										${
 											page === currentPage
-												? "bg-red-400 shadow-lg shadow-red-400/50 text-white"
-												: "text-slate-700"
+												? "primary-button"
+												: "text-slate-700 hover:font-bold hover:border-slate-300 hover:border-2 transition-all"
 										}`}
 									onClick={() => changePage(page)}
 								>
@@ -53,10 +53,10 @@ const Navigation = (props) => {
 				})}
 				<li>
 					<Button
-						className="font-semibold text-slate-700"
+						className="text-slate-700 hover:border-slate-300 hover:border-2 transition-all"
 						onClick={() => changePage(currentPage + 1)}
 					>
-						<RightArrow />
+						<RightArrow className="hover:stroke-current hover:stroke-1" />
 					</Button>
 				</li>
 			</ul>
