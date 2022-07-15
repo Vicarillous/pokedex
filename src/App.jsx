@@ -11,6 +11,7 @@ import SearchBar from "components/SearchBar";
 
 function App() {
 	const [pokemons, setPokemons] = useState([]);
+	const [search, setSearch] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [totalPages, setTotalPages] = useState(0);
@@ -44,11 +45,11 @@ function App() {
 			});
 
 			const results = await Promise.all(promises);
-			setPokemons(results);
-			setIsLoading(false);
+			setIsLoading(false);			
+			setPokemons(results);		
 			setTotalPages(Math.ceil(data.count / itemsPerPage));
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	};
 
@@ -58,7 +59,7 @@ function App() {
 
 		if (!search) {
 			setIsSearch(false);
-			return fetchPokemons();
+			return;
 		}
 
 		setIsLoading(true);
@@ -68,15 +69,26 @@ function App() {
 
 		if (isNaN(search)) {
 			searchData = await getPokemonsByName({
-				variables: { name: search },
-			}).then((res) => res.data.pokemon_v2_pokemon);
+				variables: {
+					name: search,
+					limit: itemsPerPage,
+					offset: currentPage * itemsPerPage,
+				},
+			}).then((res) => res.data);
 		} else {
 			searchData = await getPokemonsById({
-				variables: { id: search },
-			}).then((res) => res.data.pokemon_v2_pokemon);
+				variables: {
+					id: search,
+					limit: itemsPerPage,
+					offset: currentPage * itemsPerPage,
+				},
+			}).then((res) => res.data);
 		}
 
-		const promises = searchData.map(async (pokemon) => {
+		const pokemons = searchData.pokemon_v2_pokemon;
+		const count = searchData.pokemon_v2_pokemon_aggregate.aggregate.count;
+
+		const promises = pokemons.map(async (pokemon) => {
 			return await PokedexApi.searchPokemon(pokemon.id).then(
 				(res) => res.data
 			);
@@ -84,16 +96,16 @@ function App() {
 
 		const results = await Promise.all(promises);
 
-		totalCount.current = searchData.length;
-		setTotalPages(Math.ceil(totalCount.current / itemsPerPage));
-		setCurrentPage(0);
+		totalCount.current = count;
+		setTotalPages(Math.ceil(count / itemsPerPage));
 		sessionStorage.setItem("currentPage", currentPage);
-		setPokemons(results);
 		setIsLoading(false);
-
+		
 		if (results.length === 0) {
 			setNotFound(true);
 		}
+
+		setPokemons(results);	
 	};
 
 	useEffect(() => {
@@ -101,6 +113,14 @@ function App() {
 		fetchPokemons();
 		sessionStorage.setItem("currentPage", currentPage);
 	}, [currentPage, isSearch]);
+
+	useEffect(() => {
+		searchPokemon(search);
+	}, [search, currentPage]);
+
+	useEffect(() => {
+		setCurrentPage(0);
+	}, [search]);
 
 	return (
 		<>
@@ -111,13 +131,15 @@ function App() {
 			/>
 			<div className="container p-8 mx-auto">
 				<Header />
-				<SearchBar searchPokemon={searchPokemon} />
+				<SearchBar searchPokemon={setSearch} />
 				{notFound ? (
 					<div className="border-2 border-red-400 rounded-lg max-w-lg mx-auto my-12 py-3 px-6 bg-white text-center">
 						<p className="text-red-400 text-lg font-semibold">
 							Nenhum Pokémon corresponde à sua pesquisa!
 						</p>
-						<p className="text-lg font-regular text-slate-700">Altere o termo de busca e tente novamente.</p>
+						<p className="text-lg font-regular text-slate-700">
+							Altere o termo de busca e tente novamente.
+						</p>
 					</div>
 				) : (
 					<Pokedex
